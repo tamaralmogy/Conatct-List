@@ -16,6 +16,7 @@ export interface Contact {
 }
 
 const contacts: Contact[] = []; // In-memory to store contacts
+let lastId = 0;
 
 // Get all contacts
 app.get("/api/contacts", (req: Request, res: Response) => {
@@ -24,9 +25,11 @@ app.get("/api/contacts", (req: Request, res: Response) => {
 
 // Create a new contact
 app.post("/api/contacts", (req: Request, res: Response) => {
-  const newContact: Contact = { id: Date.now(), ...req.body };
+  lastId += 1;
+  const newContact: Contact = { id: lastId, ...req.body };
   contacts.push(newContact);
   res.status(201).json(newContact);
+  // Check that contacts updates correctly
   console.log(contacts);
 });
 
