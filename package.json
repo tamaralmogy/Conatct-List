@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "@mui/icons-material": "^6.1.6"
+    "@mui/icons-material": "^6.1.6",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17"
   }
 }

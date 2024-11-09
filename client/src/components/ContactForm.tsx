@@ -3,10 +3,10 @@ import { TextField, Button, Box, Typography } from "@mui/material";
 import { Contact } from "../types";
 
 interface ContactFormProps {
-  onSubmit: (contact: Contact) => void;
+  onSubmit: (contact: Omit<Contact, "id">) => void;
 }
 
-const ContactForm: FC<ContactFormProps> = ({ onSubmit }) => {
+const ContactForm: FC<ContactFormProps> = () => {
   const [contact, setContact] = useState<Omit<Contact, "id">>({
     firstName: "",
     lastName: "",
@@ -22,10 +22,26 @@ const ContactForm: FC<ContactFormProps> = ({ onSubmit }) => {
     }));
   };
 
-  const handleOnSubmit = (e: React.FormEvent) => {
+  const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ id: Date.now(), ...contact });
-    setContact({ firstName: "", lastName: "", phone: "", email: "" });
+
+    try {
+      const response = await fetch("http://localhost:5000/api/contacts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact),
+      });
+      if (response.ok) {
+        const newContact = await response.json();
+        console.log("Contact added:", newContact);
+      } else {
+        console.error("Failed to add contact");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
