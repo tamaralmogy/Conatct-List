@@ -1,14 +1,22 @@
-import React from "react";
+import React, { FC } from "react";
 import Header from "./components/Header";
-import logo from "./logo.svg";
+import ContactForm from "./components/ContactForm";
+import { Contact } from "./types";
+
+// import logo from "./logo.svg";
 import "./App.css";
 
-function App() {
+const App: FC = () => {
+  const handleAddContact = (contact: Contact) => {
+    console.log("New Contact Added:", contact);
+  };
+
   return (
-    <div className="App">
+    <>
       <Header />
-    </div>
+      <ContactForm onSubmit={handleAddContact} />
+    </>
   );
-}
+};
 
 export default App;
